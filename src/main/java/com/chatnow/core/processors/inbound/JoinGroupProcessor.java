@@ -1,10 +1,7 @@
 package com.chatnow.core.processors.inbound;
 
 import com.chatnow.core.dao.GroupDao;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.domain.inboundmsg.command.CreateGroupCommand;
-import com.chatnow.core.domain.inboundmsg.command.JoinGroupCommand;
-import com.chatnow.core.domain.outboundmsg.resp.JoinGroupCommandResp;
+import com.chatnow.core.domain.protobuf.command.JoinGroup;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;
 import com.chatnow.core.session.Session;
@@ -14,14 +11,16 @@ import io.netty.channel.ChannelHandlerContext;
 /**
  * Created by Enzo Cotter on 2020/2/10.
  */
-public class JoinGroupProcessor implements InboundProcessor {
-    public void process(ChannelHandlerContext ctx, InboundMsg msg) {
-        JoinGroupCommand command = (JoinGroupCommand) msg;
+public class JoinGroupProcessor implements InboundProcessor<JoinGroup.JoinGroupCommand> {
+
+    @Override
+    public void process(ChannelHandlerContext ctx, JoinGroup.JoinGroupCommand command) {
+
         String authToken = command.getToken();
         Session session = SessionManager.getInstance().getSession(authToken);
-        JoinGroupCommandResp resp = new JoinGroupCommandResp();
+        JoinGroup.JoinGroupCommandResp resp = null;
         if (null == session) {
-            resp.setResultCode(ResultCode.NO_LOGIN.ordinal());
+            resp = JoinGroup.JoinGroupCommandResp.newBuilder().setResultCode(ResultCode.NO_LOGIN.ordinal()).build();
             ctx.channel().writeAndFlush(resp);
             return;
 
@@ -29,7 +28,8 @@ public class JoinGroupProcessor implements InboundProcessor {
 
         GroupDao.getInstance().joinGroup((String) session.getByKey("userName"), command.getGroupName());
         //成功
-        resp.setResultCode(ResultCode.SUCCESS.ordinal());
+        resp = JoinGroup.JoinGroupCommandResp.newBuilder().setResultCode(ResultCode.SUCCESS.ordinal()).build();
         ctx.channel().writeAndFlush(resp);
+
     }
 }

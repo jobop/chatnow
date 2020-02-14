@@ -1,9 +1,7 @@
 package com.chatnow.core.test.client;
 
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.test.client.handler.ClientInboundMsgDecoder;
-import com.chatnow.core.test.client.handler.ClientInboundMsgHandler;
-import com.chatnow.core.test.client.handler.ClientOutboundMsgEncoder;
+import com.chatnow.core.handlers.ProtobufAnyEncoder;
+import com.chatnow.core.test.client.handler.ClientProcessHandler;
 import com.chatnow.core.test.client.utils.CommandUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -12,6 +10,8 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import org.jline.reader.*;
 import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
@@ -42,11 +42,18 @@ public class BaseClient {
         bs.group(worker).channel(NioSocketChannel.class).handler(new ChannelInitializer() {
 
             protected void initChannel(Channel ch) throws Exception {
-                ch.pipeline().addLast(new ClientInboundMsgDecoder());
-                ch.pipeline().addLast(new ClientInboundMsgHandler());
+                //处理proto半包
+                ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
 
-//                ch.pipeline().addLast(new ClientHandler());
-                ch.pipeline().addLast(new ClientOutboundMsgEncoder());
+                //解析数据proto数据，并分发给业务
+                ch.pipeline().addLast(new ClientProcessHandler());
+
+
+                //输出增加proto半包标示
+                ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
+
+                //任意类型序列化
+                ch.pipeline().addLast(new ProtobufAnyEncoder());
             }
 
         });
@@ -73,12 +80,12 @@ public class BaseClient {
                 .build();
 
 
-        String prompt = "client> ";
+        String prompt = "chatnow> ";
         while (true) {
             String line;
             try {
                 line = lineReader.readLine(prompt);
-                InboundMsg command = CommandUtils.parseCommand(line);
+                Object command = CommandUtils.parseCommand(line);
                 if (null == command) {
                     continue;
                 }

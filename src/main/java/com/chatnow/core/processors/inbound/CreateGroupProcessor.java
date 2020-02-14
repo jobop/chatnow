@@ -1,9 +1,7 @@
 package com.chatnow.core.processors.inbound;
 
 import com.chatnow.core.dao.GroupDao;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.domain.inboundmsg.command.CreateGroupCommand;
-import com.chatnow.core.domain.outboundmsg.resp.CreateGroupCommandResp;
+import com.chatnow.core.domain.protobuf.command.CreateGroup;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;
 import com.chatnow.core.session.Session;
@@ -13,16 +11,19 @@ import io.netty.channel.ChannelHandlerContext;
 /**
  * Created by Enzo Cotter on 2020/2/10.
  */
-public class CreateGroupProcessor implements InboundProcessor {
-    public void process(ChannelHandlerContext ctx, InboundMsg msg) {
+public class CreateGroupProcessor implements InboundProcessor<CreateGroup.CreateGroupCommand> {
 
-        CreateGroupCommand command = (CreateGroupCommand) msg;
+    @Override
+    public void process(ChannelHandlerContext ctx, CreateGroup.CreateGroupCommand command) {
+
+
         String authToken = command.getToken();
         Session session = SessionManager.getInstance().getSession(authToken);
 
-        CreateGroupCommandResp resp = new CreateGroupCommandResp();
+        CreateGroup.CreateGroupCommandResp resp;
+
         if (null == session) {
-            resp.setResultCode(ResultCode.NO_LOGIN.ordinal());
+            resp = CreateGroup.CreateGroupCommandResp.newBuilder().setResultCode(ResultCode.NO_LOGIN.ordinal()).build();
             ctx.channel().writeAndFlush(resp);
             return;
         }
@@ -32,8 +33,10 @@ public class CreateGroupProcessor implements InboundProcessor {
 
         GroupDao.getInstance().createGroup(command.getGroupName(), userName);
         //成功
-        resp.setResultCode(ResultCode.SUCCESS.ordinal());
+        resp = CreateGroup.CreateGroupCommandResp.newBuilder().setResultCode(ResultCode.SUCCESS.ordinal()).build();
         ctx.channel().writeAndFlush(resp);
 
+
     }
+
 }

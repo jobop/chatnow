@@ -1,0 +1,12 @@
+syntax="proto3";
+
+package com.chatnow.core.domain.protobuf.command;
+
+message HeartBeatCommand{
+    sint32 type=1;
+}
+
+
+message HeartBeatCommandResp{
+    sint32 type=1;
+}

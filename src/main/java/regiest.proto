@@ -1,0 +1,16 @@
+syntax="proto3";
+
+package com.chatnow.core.domain.protobuf.command;
+
+message RegiestCommand{
+    sint32 type=1;
+    string userName=2;
+    string pwd=3;
+
+}
+
+
+message RegiestCommandResp{
+    sint32 type=1;
+    sint32 resultCode=2;
+}
