@@ -1,4 +1,4 @@
-package com.chatnow.core.handlers.protobuf;
+package com.chatnow.core.handlers;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.Message;

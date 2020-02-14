@@ -1,11 +1,8 @@
 package com.chatnow.core.processors.inbound;
 
 import com.chatnow.core.dao.UserDao;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.domain.inboundmsg.command.SendToUserCommand;
-import com.chatnow.core.domain.outboundmsg.push.PushToUserMsg;
-import com.chatnow.core.domain.outboundmsg.resp.SendToUserCommandResp;
 import com.chatnow.core.domain.protobuf.command.SendToUser;
+import com.chatnow.core.domain.protobuf.push.PushToUser;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;
 import com.chatnow.core.route.RouteManager;
@@ -37,9 +34,9 @@ public class SendToUserProcessor implements InboundProcessor<SendToUser.SendToUs
         if (null != receiverChannel && receiverChannel.isActive()) {
             //组装发送信息
 
-            PushToUserMsg pushToUserMsg = new PushToUserMsg();
-            pushToUserMsg.setSenderName(userName);
-            pushToUserMsg.setContent(msg.getContent());
+            PushToUser.PushToUserMsg pushToUserMsg = PushToUser.PushToUserMsg.newBuilder()
+                    .setSenderName(userName)
+                    .setContent(msg.getContent()).build();
 
             receiverChannel.writeAndFlush(pushToUserMsg);
 

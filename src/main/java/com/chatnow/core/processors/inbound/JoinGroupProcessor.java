@@ -1,10 +1,6 @@
 package com.chatnow.core.processors.inbound;
 
 import com.chatnow.core.dao.GroupDao;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.domain.inboundmsg.command.CreateGroupCommand;
-import com.chatnow.core.domain.inboundmsg.command.JoinGroupCommand;
-import com.chatnow.core.domain.outboundmsg.resp.JoinGroupCommandResp;
 import com.chatnow.core.domain.protobuf.command.JoinGroup;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;

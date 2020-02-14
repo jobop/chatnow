@@ -1,15 +1,14 @@
 package com.chatnow.core;
 
 import com.chatnow.core.handlers.*;
-import com.chatnow.core.handlers.protobuf.ProcessorHandler;
-import com.chatnow.core.handlers.protobuf.ProtobufAnyEncoder;
+import com.chatnow.core.handlers.ProcessorHandler;
+import com.chatnow.core.handlers.ProtobufAnyEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;

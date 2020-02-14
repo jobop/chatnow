@@ -1,8 +1,6 @@
 package com.chatnow.core.test.client.utils;
 
 import com.chatnow.core.domain.enums.InboundMsgTypeEnums;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.domain.inboundmsg.command.*;
 import com.chatnow.core.domain.protobuf.command.*;
 
 /**

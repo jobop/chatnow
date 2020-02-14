@@ -1,7 +1,5 @@
 package com.chatnow.core.processors;
 
-import com.chatnow.core.domain.enums.InboundMsgTypeEnums;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
 import com.chatnow.core.domain.protobuf.command.*;
 import com.chatnow.core.processors.inbound.*;
 import com.google.protobuf.Any;

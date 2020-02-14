@@ -1,11 +1,6 @@
 package com.chatnow.core.test.client;
 
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.handlers.protobuf.ProcessorHandler;
-import com.chatnow.core.handlers.protobuf.ProtobufAnyEncoder;
-import com.chatnow.core.test.client.handler.ClientInboundMsgDecoder;
-import com.chatnow.core.test.client.handler.ClientInboundMsgHandler;
-import com.chatnow.core.test.client.handler.ClientOutboundMsgEncoder;
+import com.chatnow.core.handlers.ProtobufAnyEncoder;
 import com.chatnow.core.test.client.handler.ClientProcessHandler;
 import com.chatnow.core.test.client.utils.CommandUtils;
 import io.netty.bootstrap.Bootstrap;
@@ -85,7 +80,7 @@ public class BaseClient {
                 .build();
 
 
-        String prompt = "client> ";
+        String prompt = "chatnow> ";
         while (true) {
             String line;
             try {

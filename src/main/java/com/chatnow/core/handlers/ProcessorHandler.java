@@ -1,6 +1,5 @@
-package com.chatnow.core.handlers.protobuf;
+package com.chatnow.core.handlers;
 
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
 import com.chatnow.core.processors.InboundProcessorFactory;
 import com.google.protobuf.Any;
 import io.netty.buffer.ByteBuf;

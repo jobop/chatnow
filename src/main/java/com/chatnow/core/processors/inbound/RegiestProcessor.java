@@ -1,9 +1,6 @@
 package com.chatnow.core.processors.inbound;
 
 import com.chatnow.core.dao.UserDao;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.domain.inboundmsg.command.RegiestCommand;
-import com.chatnow.core.domain.outboundmsg.resp.RegiestCommandResp;
 import com.chatnow.core.domain.protobuf.command.Regiest;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;

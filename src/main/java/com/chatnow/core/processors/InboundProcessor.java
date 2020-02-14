@@ -1,6 +1,5 @@
 package com.chatnow.core.processors;
 
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
 import io.netty.channel.ChannelHandlerContext;
 
 /**

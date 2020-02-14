@@ -47,6 +47,18 @@ public final class PushToGroup {
      */
     com.google.protobuf.ByteString
         getContentBytes();
+
+    /**
+     * <code>string senderName = 4;</code>
+     * @return The senderName.
+     */
+    java.lang.String getSenderName();
+    /**
+     * <code>string senderName = 4;</code>
+     * @return The bytes for senderName.
+     */
+    com.google.protobuf.ByteString
+        getSenderNameBytes();
   }
   /**
    * Protobuf type {@code com.chatnow.core.domain.protobuf.push.PushToGroupUserMsg}
@@ -63,6 +75,7 @@ public final class PushToGroup {
     private PushToGroupUserMsg() {
       groupName_ = "";
       content_ = "";
+      senderName_ = "";
     }
 
     @java.lang.Override
@@ -110,6 +123,12 @@ public final class PushToGroup {
               java.lang.String s = input.readStringRequireUtf8();
 
               content_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              senderName_ = s;
               break;
             }
             default: {
@@ -226,6 +245,42 @@ public final class PushToGroup {
       }
     }
 
+    public static final int SENDERNAME_FIELD_NUMBER = 4;
+    private volatile java.lang.Object senderName_;
+    /**
+     * <code>string senderName = 4;</code>
+     * @return The senderName.
+     */
+    public java.lang.String getSenderName() {
+      java.lang.Object ref = senderName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        senderName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string senderName = 4;</code>
+     * @return The bytes for senderName.
+     */
+    public com.google.protobuf.ByteString
+        getSenderNameBytes() {
+      java.lang.Object ref = senderName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        senderName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -249,6 +304,9 @@ public final class PushToGroup {
       if (!getContentBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, content_);
       }
+      if (!getSenderNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, senderName_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -267,6 +325,9 @@ public final class PushToGroup {
       }
       if (!getContentBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, content_);
+      }
+      if (!getSenderNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, senderName_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -289,6 +350,8 @@ public final class PushToGroup {
           .equals(other.getGroupName())) return false;
       if (!getContent()
           .equals(other.getContent())) return false;
+      if (!getSenderName()
+          .equals(other.getSenderName())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -306,6 +369,8 @@ public final class PushToGroup {
       hash = (53 * hash) + getGroupName().hashCode();
       hash = (37 * hash) + CONTENT_FIELD_NUMBER;
       hash = (53 * hash) + getContent().hashCode();
+      hash = (37 * hash) + SENDERNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getSenderName().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -445,6 +510,8 @@ public final class PushToGroup {
 
         content_ = "";
 
+        senderName_ = "";
+
         return this;
       }
 
@@ -474,6 +541,7 @@ public final class PushToGroup {
         result.type_ = type_;
         result.groupName_ = groupName_;
         result.content_ = content_;
+        result.senderName_ = senderName_;
         onBuilt();
         return result;
       }
@@ -531,6 +599,10 @@ public final class PushToGroup {
         }
         if (!other.getContent().isEmpty()) {
           content_ = other.content_;
+          onChanged();
+        }
+        if (!other.getSenderName().isEmpty()) {
+          senderName_ = other.senderName_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -740,6 +812,82 @@ public final class PushToGroup {
   checkByteStringIsUtf8(value);
         
         content_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object senderName_ = "";
+      /**
+       * <code>string senderName = 4;</code>
+       * @return The senderName.
+       */
+      public java.lang.String getSenderName() {
+        java.lang.Object ref = senderName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          senderName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string senderName = 4;</code>
+       * @return The bytes for senderName.
+       */
+      public com.google.protobuf.ByteString
+          getSenderNameBytes() {
+        java.lang.Object ref = senderName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          senderName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string senderName = 4;</code>
+       * @param value The senderName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        senderName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string senderName = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSenderName() {
+        
+        senderName_ = getDefaultInstance().getSenderName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string senderName = 4;</code>
+       * @param value The bytes for senderName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        senderName_ = value;
         onChanged();
         return this;
       }
@@ -1370,10 +1518,11 @@ public final class PushToGroup {
   static {
     java.lang.String[] descriptorData = {
       "\n\023push_to_group.proto\022%com.chatnow.core." +
-      "domain.protobuf.push\"F\n\022PushToGroupUserM" +
+      "domain.protobuf.push\"Z\n\022PushToGroupUserM" +
       "sg\022\014\n\004type\030\001 \001(\021\022\021\n\tgroupName\030\002 \001(\t\022\017\n\007c" +
-      "ontent\030\003 \001(\t\":\n\026PushToGroupUserMsgResp\022\014" +
-      "\n\004type\030\001 \001(\021\022\022\n\nresultCode\030\002 \001(\021b\006proto3"
+      "ontent\030\003 \001(\t\022\022\n\nsenderName\030\004 \001(\t\":\n\026Push" +
+      "ToGroupUserMsgResp\022\014\n\004type\030\001 \001(\021\022\022\n\nresu" +
+      "ltCode\030\002 \001(\021b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1384,7 +1533,7 @@ public final class PushToGroup {
     internal_static_com_chatnow_core_domain_protobuf_push_PushToGroupUserMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_chatnow_core_domain_protobuf_push_PushToGroupUserMsg_descriptor,
-        new java.lang.String[] { "Type", "GroupName", "Content", });
+        new java.lang.String[] { "Type", "GroupName", "Content", "SenderName", });
     internal_static_com_chatnow_core_domain_protobuf_push_PushToGroupUserMsgResp_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_chatnow_core_domain_protobuf_push_PushToGroupUserMsgResp_fieldAccessorTable = new

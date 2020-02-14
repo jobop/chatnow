@@ -1,13 +1,8 @@
 package com.chatnow.core.processors.inbound;
 
 import com.chatnow.core.dao.GroupDao;
-import com.chatnow.core.domain.inboundmsg.InboundMsg;
-import com.chatnow.core.domain.inboundmsg.command.JoinGroupCommand;
-import com.chatnow.core.domain.inboundmsg.command.SendToGroupCommand;
-import com.chatnow.core.domain.outboundmsg.push.PushToGroupUserMsg;
-import com.chatnow.core.domain.outboundmsg.push.PushToUserMsg;
-import com.chatnow.core.domain.outboundmsg.resp.SendToGroupCommandResp;
 import com.chatnow.core.domain.protobuf.command.SendToGroup;
+import com.chatnow.core.domain.protobuf.push.PushToGroup;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;
 import com.chatnow.core.route.RouteManager;
@@ -32,7 +27,7 @@ public class SendToGroupProcessor implements InboundProcessor<SendToGroup.SendTo
         SendToGroup.SendToGroupCommandResp resp = null;
         if (null == session) {
             //没有登录，返回错误码
-            resp=SendToGroup.SendToGroupCommandResp.newBuilder().setResultCode(ResultCode.NO_LOGIN.ordinal()).build();
+            resp = SendToGroup.SendToGroupCommandResp.newBuilder().setResultCode(ResultCode.NO_LOGIN.ordinal()).build();
             ctx.channel().writeAndFlush(resp);
             return;
 
@@ -47,10 +42,10 @@ public class SendToGroupProcessor implements InboundProcessor<SendToGroup.SendTo
                     Channel subChannel = RouteManager.getInstance().getChannelByUserName(user);
                     if (null != subChannel && subChannel.isActive()) {
                         //发送给对方
-                        PushToGroupUserMsg pushToGroupUserMsg = new PushToGroupUserMsg();
-                        pushToGroupUserMsg.setGroupName(command.getGroupName());
-                        pushToGroupUserMsg.setSenderName((String) session.getByKey("userName"));
-                        pushToGroupUserMsg.setContent(command.getContent());
+                        PushToGroup.PushToGroupUserMsg pushToGroupUserMsg = PushToGroup.PushToGroupUserMsg.newBuilder()
+                                .setSenderName((String) session.getByKey("userName"))
+                                .setGroupName(command.getGroupName())
+                                .setContent(command.getContent()).build();
 
                         subChannel.writeAndFlush(pushToGroupUserMsg);
 
@@ -63,7 +58,7 @@ public class SendToGroupProcessor implements InboundProcessor<SendToGroup.SendTo
 
         }
         //返回成功
-        resp=SendToGroup.SendToGroupCommandResp.newBuilder().setResultCode(ResultCode.SUCCESS.ordinal()).build();
+        resp = SendToGroup.SendToGroupCommandResp.newBuilder().setResultCode(ResultCode.SUCCESS.ordinal()).build();
         ctx.channel().writeAndFlush(resp);
 
     }
