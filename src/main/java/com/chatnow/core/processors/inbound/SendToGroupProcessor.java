@@ -7,6 +7,7 @@ import com.chatnow.core.domain.inboundmsg.command.SendToGroupCommand;
 import com.chatnow.core.domain.outboundmsg.push.PushToGroupUserMsg;
 import com.chatnow.core.domain.outboundmsg.push.PushToUserMsg;
 import com.chatnow.core.domain.outboundmsg.resp.SendToGroupCommandResp;
+import com.chatnow.core.domain.protobuf.command.SendToGroup;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;
 import com.chatnow.core.route.RouteManager;
@@ -20,16 +21,18 @@ import java.util.Set;
 /**
  * Created by Enzo Cotter on 2020/2/10.
  */
-public class SendToGroupProcessor implements InboundProcessor {
-    public void process(ChannelHandlerContext ctx, InboundMsg msg) {
-        SendToGroupCommand command = (SendToGroupCommand) msg;
+public class SendToGroupProcessor implements InboundProcessor<SendToGroup.SendToGroupCommand> {
+
+    @Override
+    public void process(ChannelHandlerContext ctx, SendToGroup.SendToGroupCommand command) {
+
         String authToken = command.getToken();
         Session session = SessionManager.getInstance().getSession(authToken);
 
-        SendToGroupCommandResp resp = new SendToGroupCommandResp();
+        SendToGroup.SendToGroupCommandResp resp = null;
         if (null == session) {
             //没有登录，返回错误码
-            resp.setResultCode(ResultCode.NO_LOGIN.ordinal());
+            resp=SendToGroup.SendToGroupCommandResp.newBuilder().setResultCode(ResultCode.NO_LOGIN.ordinal()).build();
             ctx.channel().writeAndFlush(resp);
             return;
 
@@ -60,7 +63,8 @@ public class SendToGroupProcessor implements InboundProcessor {
 
         }
         //返回成功
-        resp.setResultCode(ResultCode.SUCCESS.ordinal());
+        resp=SendToGroup.SendToGroupCommandResp.newBuilder().setResultCode(ResultCode.SUCCESS.ordinal()).build();
         ctx.channel().writeAndFlush(resp);
+
     }
 }

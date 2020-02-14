@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package com.chatnow.core.domain.protobuf.command;
+
+message LoginCommand{
+    sint32 type=1;
+    string userName=2;
+    string pwd=3;
+}
+
+
+message LoginCommandResp{
+    sint32 type=1;
+    sint32 resultCode=2;
+
+    string authToken=3;
+}

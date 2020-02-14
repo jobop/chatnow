@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package com.chatnow.core.domain.protobuf.command;
+
+message CreateGroupCommand{
+    sint32 type=1;
+    string groupName=2;
+    string token=3;
+}
+
+
+message CreateGroupCommandResp{
+    sint32 type=1;
+    sint32 resultCode=2;
+}

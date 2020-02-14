@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package com.chatnow.core.domain.protobuf.push;
+
+message PushToUserMsg{
+    sint32 type=1;
+    string senderName=2;
+    string content=3;
+}
+
+
+message PushToUserMsgResp{
+    sint32 type=1;
+    sint32 resultCode=2;
+}

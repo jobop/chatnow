@@ -1,0 +1,16 @@
+syntax="proto3";
+
+package com.chatnow.core.domain.protobuf.command;
+
+message SendToUserCommand{
+    sint32 type=1;
+    string receiveUserName=2;
+    string content=3;
+    string token=4;
+}
+
+
+message SendToUserCommandResp{
+    sint32 type=1;
+    sint32 resultCode=2;
+}

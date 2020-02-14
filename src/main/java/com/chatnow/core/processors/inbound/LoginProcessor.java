@@ -4,6 +4,7 @@ import com.chatnow.core.dao.UserDao;
 import com.chatnow.core.domain.inboundmsg.InboundMsg;
 import com.chatnow.core.domain.inboundmsg.command.LoginCommand;
 import com.chatnow.core.domain.outboundmsg.resp.LoginCommandResp;
+import com.chatnow.core.domain.protobuf.command.Login;
 import com.chatnow.core.processors.InboundProcessor;
 import com.chatnow.core.processors.ResultCode;
 import com.chatnow.core.route.RouteManager;
@@ -12,21 +13,21 @@ import com.chatnow.core.session.SessionManager;
 import com.chatnow.core.utils.UUIDUtil;
 import io.netty.channel.ChannelHandlerContext;
 
-public class LoginProcessor implements InboundProcessor {
-    public void process(ChannelHandlerContext ctx, InboundMsg msg) {
-        LoginCommand command = (LoginCommand) msg;
+public class LoginProcessor implements InboundProcessor<Login.LoginCommand> {
+
+    @Override
+    public void process(ChannelHandlerContext ctx, Login.LoginCommand command) {
+
         String userName = command.getUserName();
         String pwd = UserDao.getInstance().queryPwdByUserName(userName);
-        LoginCommandResp resp = new LoginCommandResp();
+        Login.LoginCommandResp resp = null;
         if (null == pwd || "".equals(pwd)) {
-            resp.setResultCode(ResultCode.USER_NOT_EXISTS.ordinal());
-            resp.setAuthToken("");
+            resp = Login.LoginCommandResp.newBuilder().setResultCode(ResultCode.USER_NOT_EXISTS.ordinal()).setAuthToken("").build();
             ctx.channel().writeAndFlush(resp);
             return;
         }
         if (!pwd.equals(command.getPwd())) {
-            resp.setResultCode(ResultCode.PWD_ERROR.ordinal());
-            resp.setAuthToken("");
+            resp = Login.LoginCommandResp.newBuilder().setResultCode(ResultCode.PWD_ERROR.ordinal()).setAuthToken("").build();
             ctx.channel().writeAndFlush(resp);
             return;
         }
@@ -39,8 +40,9 @@ public class LoginProcessor implements InboundProcessor {
         RouteManager.getInstance().removeChannel(userName);
         RouteManager.getInstance().addToChannelRoute(userName, ctx.channel());
 
-        resp.setResultCode(ResultCode.SUCCESS.ordinal());
-        resp.setAuthToken(authToken);
+
+        resp = Login.LoginCommandResp.newBuilder().setResultCode(ResultCode.SUCCESS.ordinal()).setAuthToken(authToken).build();
         ctx.channel().writeAndFlush(resp);
+
     }
 }

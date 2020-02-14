@@ -1,0 +1,9 @@
+syntax="proto3";
+import "google/protobuf/any.proto";
+package com.chatnow.core.domain.protobuf.command;
+
+message Message{
+    Any data=1;
+}
+
+

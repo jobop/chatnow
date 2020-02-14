@@ -12,7 +12,7 @@ public class InboundMsgHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        InboundMsg inboundMsg = (InboundMsg) msg;
-        InboundProcessorFactory.process(ctx, inboundMsg);
+//        InboundMsg inboundMsg = (InboundMsg) msg;
+//        InboundProcessorFactory.process(ctx, inboundMsg);
     }
 }
